@@ -1,35 +1,45 @@
+require('dotenv').config();
 // const processPostback = require('../processes/postback');
 // const processMessage = require('../processes/messages');
 
-module.exports = function (app, chalk) {
-  app.get('/webhook', function (req, res) {
-    if (
-      req.query['hub.verify_token'] === process.env.FACEBOOK_PAGE_ACCESS_TOKEN
-    ) {
-      console.log('webhook verified');
-      res.status(200).send(req.query['hub.challenge']);
-    } else {
-      console.error('verification failed. Token mismatch.');
-      res.sendStatus(403);
+module.exports = (app, chalk) => {
+  app.get('/webhook', (req, res) => {
+    let mode = req.query['hub.mode'];
+    let token = req.query['hub.verify_token'];
+    let challenge = req.query['hub.challenge'];
+
+    if (mode && token) {
+      if (
+        mode === 'subscribe' &&
+        token === process.env.FACEBOOK_PAGE_ACCESS_TOKEN
+      ) {
+        console.log('Webhook Verified.');
+        res.status(200).send(challenge);
+      } else {
+        console.error('Verification Failed.');
+        res.sendStatus(403);
+      }
     }
   });
 
-  app.post('/webhook', function (req, res) {
-    //checking for page subscription.
-    if (req.body.object === 'page') {
-      req.body.entry.forEach(function (entry) {
-        entry.messaging.forEach(function (event) {
+  app.post('/webhook', (req, res) => {
+    let body = req.body;
+    console.log(body);
+
+    if (body.object === 'page') {
+      body.entry.forEach((entry) => {
+        entry.messaging.forEach((event) => {
           console.log(event);
           if (event.postback) {
-            // processPostback(event);
             console.log('siema');
           } else if (event.message) {
-            // processMessage(event);
             console.log('elo');
           }
         });
       });
-      res.sendStatus(200);
+      res.status(200).send('Event_Received.');
+    } else {
+      res.sendStatus(404);
     }
   });
 };
