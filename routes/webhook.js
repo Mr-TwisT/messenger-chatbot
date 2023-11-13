@@ -1,6 +1,6 @@
 require('dotenv').config();
-const handleMessage = require('../handlers/message');
-const handlePostback = require('../handlers/postback');
+import handleMessage from '../handlers/message';
+// const handlePostback = require('../handlers/postback');
 
 module.exports = (app, chalk) => {
   app.get('/webhook', (req, res) => {

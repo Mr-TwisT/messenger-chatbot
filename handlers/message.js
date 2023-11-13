@@ -37,3 +37,5 @@ const callSendAPI = (sender_psid, response) => {
     }
   );
 };
+
+export default handleMessage;
