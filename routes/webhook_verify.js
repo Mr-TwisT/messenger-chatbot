@@ -30,6 +30,9 @@ module.exports = (app, chalk) => {
       body.entry.forEach((entry) => {
         entry.messaging.forEach((event) => {
           console.log(event);
+          let sender_psid = event.sender.id;
+          console.log('Sender PSID: ' + sender_psid);
+
           if (event.postback) {
             console.log('siema');
           } else if (event.message) {
