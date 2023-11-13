@@ -1,5 +1,21 @@
-const handleMessage = (sender_psid, received_message) => {};
+const handleMessage = (sender_psid, received_message) => {
+  let response;
+  console.log(received_message);
 
-const handlePostback = (sender_psid, received_postback) => {};
+  if (received_message.text) {
+    response = {
+      text: `You sent the message: "${received_message.text}". Now send me an image!`,
+    };
+  }
 
-const callSendAPI = (sender_psid, response) => {};
+  callSendAPI(sender_psid, response);
+};
+
+const callSendAPI = (sender_psid, response) => {
+  let request_body = {
+    recipient: {
+      id: sender_psid,
+    },
+    message: response,
+  };
+};

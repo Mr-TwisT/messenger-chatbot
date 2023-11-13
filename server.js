@@ -11,7 +11,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-require('./routes/webhook_verify')(app);
+require('./routes/webhook')(app);
 
 app.listen(app.get('port'), () => {
   const url = 'http://localhost:' + app.set('port');

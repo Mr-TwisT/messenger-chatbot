@@ -1,6 +1,6 @@
 require('dotenv').config();
-// const processPostback = require('../processes/postback');
-// const processMessage = require('../processes/messages');
+const handleMessage = require('../handlers/message');
+const handlePostback = require('../handlers/postback');
 
 module.exports = (app, chalk) => {
   app.get('/webhook', (req, res) => {
@@ -24,19 +24,19 @@ module.exports = (app, chalk) => {
 
   app.post('/webhook', (req, res) => {
     let body = req.body;
-    console.log(body);
 
     if (body.object === 'page') {
       body.entry.forEach((entry) => {
         entry.messaging.forEach((event) => {
           console.log(event);
+
           let sender_psid = event.sender.id;
           console.log('Sender PSID: ' + sender_psid);
 
-          if (event.postback) {
-            console.log('siema');
-          } else if (event.message) {
-            console.log('elo');
+          if (event.message) {
+            handleMessage(sender_psid, event.message);
+          } else if (event.postback) {
+            handlePostback(sender_psid, event.postback);
           }
         });
       });
