@@ -1,5 +1,5 @@
 require('dotenv').config();
-import handleMessage from '../handlers/message';
+// import handleMessage from '../handlers/message';
 // const handlePostback = require('../handlers/postback');
 
 module.exports = (app, chalk) => {
