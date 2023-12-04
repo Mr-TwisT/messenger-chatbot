@@ -1,6 +1,7 @@
 require('dotenv').config();
+
 const { handleMessage } = require('../handlers/message');
-// const handlePostback = require('../handlers/postback');
+const { handlePostback } = require('../handlers/postback');
 
 module.exports = (app, chalk) => {
   app.get('/webhook', (req, res) => {
@@ -31,7 +32,7 @@ module.exports = (app, chalk) => {
           console.log(event);
 
           let sender_psid = event.sender.id;
-          console.log('Sender PSID: ' + sender_psid);
+          // console.log('Sender PSID: ' + sender_psid);
 
           if (event.message) {
             handleMessage(sender_psid, event.message);

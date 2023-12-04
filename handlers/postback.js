@@ -1,3 +1,5 @@
+const { callSendAPI } = require('./sendAPI');
+
 const handlePostback = (sender_psid, received_postback) => {
   let response;
 
@@ -11,3 +13,5 @@ const handlePostback = (sender_psid, received_postback) => {
 
   callSendAPI(sender_psid, response);
 };
+
+module.exports = { handlePostback };
